@@ -98,6 +98,7 @@ GameObject:
   - 124: {fileID: 1666993395}
   - 81: {fileID: 1666993394}
   - 114: {fileID: 1666993399}
+  - 114: {fileID: 1666993400}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -167,7 +168,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1666993393}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 800, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -184,11 +185,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201bcbf4ce46e104489732a21fbdf02e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardBackSpeed: 100
+  forwardBackwardSpeed: 100
   leftRightMoveSpeed: 80
   pitchSpeed: 50
   yawSpeed: 50
   rollSpeed: 50
+--- !u!114 &1666993400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1666993393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6669dc5cd92ea144a249bd9a8746c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enable: 1
 --- !u!1 &1820106004
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +274,7 @@ GameObject:
   - 4: {fileID: 1839556407}
   - 218: {fileID: 1839556406}
   - 154: {fileID: 1839556405}
+  - 114: {fileID: 1839556408}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -277,7 +291,7 @@ TerrainCollider:
   m_Material: {fileID: 0}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 852d556ed68eaf6419258895cf64ed2e, type: 2}
-  m_EnableTreeColliders: 1
+  m_EnableTreeColliders: 0
 --- !u!218 &1839556406
 Terrain:
   m_ObjectHideFlags: 0
@@ -316,9 +330,23 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1839556404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -250, y: 0, z: -250}
+  m_LocalPosition: {x: -500, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &1839556408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1839556404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071bc5e3e8ed0184780ef56bd940470b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  width: 1000
+  length: 1000
+  height: 1000
