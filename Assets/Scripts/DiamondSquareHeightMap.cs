@@ -8,6 +8,7 @@ public class DiamondSquareHeightMap {
 
     float[,] data;
     int size;
+    float averageHeight;
 
     public DiamondSquareHeightMap(int recursions, float magnitudeFalloffFactor=0.5f) {
         size = Mathf.FloorToInt(Mathf.Pow(2, recursions + 1) + 1);
@@ -26,11 +27,14 @@ public class DiamondSquareHeightMap {
         }
 
         // Shift heightmap values from the range [-1, 1] to [0, 1]
+        averageHeight = 0f;
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 data[x, y] = (data[x, y] + 1) / 2;
+                averageHeight += data[x, y];
             }
         }
+        averageHeight /= size * size;
     }
 
     void diamondSquare(int stepsize, float magnitude) {
@@ -99,6 +103,10 @@ public class DiamondSquareHeightMap {
 
     public int GetSize() {
         return size;
+    }
+
+    public float GetAverageHeight() {
+        return averageHeight;
     }
 
 }

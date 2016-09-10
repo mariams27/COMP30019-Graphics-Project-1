@@ -8,6 +8,9 @@ public class TerrainGenerator : MonoBehaviour {
     public float length = 1000;
     public float height = 600;
 
+    public float waterLevel = 0.75f;
+    public GameObject waterPlane;
+
     Terrain terrain;
 
     void Start() {
@@ -30,6 +33,15 @@ public class TerrainGenerator : MonoBehaviour {
         terrain.terrainData.heightmapResolution = gen.GetSize();
         terrain.terrainData.SetHeights(0, 0, gen.GetData());
         terrain.terrainData.size = new Vector3(width, height, length);
+
+        if (waterPlane) {
+            float newWaterPlaneY = gen.GetAverageHeight() * height * waterLevel;
+            waterPlane.transform.position = new Vector3(
+                waterPlane.transform.position.x,
+                newWaterPlaneY,
+                waterPlane.transform.position.z
+            );
+        }
 	}
 
 }
