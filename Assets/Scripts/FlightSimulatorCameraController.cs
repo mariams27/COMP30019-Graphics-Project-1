@@ -15,16 +15,18 @@ public class FlightSimulatorCameraController : MonoBehaviour {
     public float yawSpeed = 50f;
     public float rollSpeed = 50f;
 
-    void Update() {
+    void FixedUpdate() {
+        float moveSpeedModifier = Input.GetKey(KeyCode.LeftShift) ? 2 : 1;
+
         transform.Translate(Time.deltaTime * new Vector3(
-            Input.GetAxis("LeftRight") * leftRightMoveSpeed,
+            Input.GetAxis("LeftRight") * leftRightMoveSpeed * moveSpeedModifier,
             0,
-            Input.GetAxis("ForwardBackward") * forwardBackwardSpeed
+            Input.GetAxis("ForwardBackward") * forwardBackwardSpeed * moveSpeedModifier
         ));
         transform.Rotate(Time.deltaTime * new Vector3(
             Input.GetAxis("Pitch") * pitchSpeed,
             Input.GetAxis("Yaw") * yawSpeed,
-            Input.GetAxis("Roll") * rollSpeed
+            Input.GetAxis("Roll") * rollSpeed * moveSpeedModifier
         ));
     }
 
