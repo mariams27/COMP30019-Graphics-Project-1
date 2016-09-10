@@ -10,6 +10,7 @@ public class TerrainGenerator : MonoBehaviour {
 
     public float waterLevel = 0.75f;
     public GameObject waterPlane;
+    public DiamondSquareHeightMap dmap;
 
     Terrain terrain;
 
@@ -18,6 +19,8 @@ public class TerrainGenerator : MonoBehaviour {
 
         transform.position = new Vector3(-width / 2, 0, -length / 2);
 
+        
+
         Generate();
     }
 
@@ -25,17 +28,26 @@ public class TerrainGenerator : MonoBehaviour {
         if (Input.GetKeyDown("space")) {
             Generate();
         }
+
+        // Get renderer component (in order to pass params to shader)
+        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
+
+        if (dmap!=null)
+        {
+            // Pass updated light positions to shader
+            renderer.material.SetFloat("_AverageHeight", this.dmap.GetAverageHeight());
+            renderer.material.SetFloat("_TerrainHeight", this.height);
+        }
     }
 
     void Generate() {
-        DiamondSquareHeightMap gen = new DiamondSquareHeightMap(7);
-
-        terrain.terrainData.heightmapResolution = gen.GetSize();
-        terrain.terrainData.SetHeights(0, 0, gen.GetData());
+        dmap = new DiamondSquareHeightMap(7);
+        terrain.terrainData.heightmapResolution = dmap.GetSize();
+        terrain.terrainData.SetHeights(0, 0, dmap.GetData());
         terrain.terrainData.size = new Vector3(width, height, length);
 
         if (waterPlane) {
-            float newWaterPlaneY = gen.GetAverageHeight() * height * waterLevel;
+            float newWaterPlaneY = dmap.GetAverageHeight() * height * waterLevel;
             waterPlane.transform.position = new Vector3(
                 waterPlane.transform.position.x,
                 newWaterPlaneY,
@@ -43,5 +55,10 @@ public class TerrainGenerator : MonoBehaviour {
             );
         }
 	}
+
+    public float getMapHeight()
+    {
+        return dmap.GetAverageHeight();
+    }
 
 }
