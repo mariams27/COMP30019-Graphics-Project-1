@@ -5,6 +5,8 @@ Shader "Unlit/TerrainShader"
 		_AverageHeight("Average Height", Float) = 0.0
 		_TerrainHeight("Terrain Height", Float) = 0.0
 		_WaterLevel("Water Level", Float) = 0.0
+		_SunColor("Sun Colour", Color) = (0,0,0)
+		_SunPosition("Sun Pos", Vector) = (0.0, 0.0, 0.0)
 	}
 
 		SubShader
@@ -21,18 +23,21 @@ Shader "Unlit/TerrainShader"
 		float _TerrainHeight;
 		float _WaterLevel;
 
+		uniform float3 _SunColour;
+		uniform float3 _SunPosition;
+
 		struct vertIn
 		{
 			float4 vertex : POSITION;
 			float4 normal : NORMAL;
-			
+			float4 colour : COLOR;
 		};
 
 		struct vertOut
 		{
 			float4 vertex : SV_POSITION;
 			float3 worldNormal : TEXCOORD1;
-			float4 worldHeight : TEXCOORD0;
+			float4 worldVertex : TEXCOORD0;
 			float4 colour : COLOR;
 		};
 
@@ -58,14 +63,47 @@ Shader "Unlit/TerrainShader"
 			else {
 				o.colour = float4(0.4f, 0.2f, 0.0f, 0.0f);
 			}
+
+			// Convert Vertex position and corresponding normal into world coords
+			o.worldVertex = mul(_Object2World, v.vertex);
+			o.worldNormal = normalize(mul(transpose((float3x3)_World2Object), v.normal.xyz));
+
+			// Transform vertex in world coordinates to camera coordinates
 			o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-			o.worldHeight = mul(_Object2World, float4(1, 1, 1, 1));
+			
 			return o;
 		}
 
 		// Implementation of the fragment shader
 		fixed4 frag(vertOut v) : SV_Target
 		{
+			float3 worldNormal = normalize(v.worldNormal);
+
+			// Calculate ambient RGB intensities
+			float Ka = 1;
+			float3 amb = v.colour.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb * Ka;
+
+			// Calculate diffuse RBG reflections, we save the results of L.N because we will use it again
+			// (when calculating the reflected ray in our specular component)
+			float fAtt = 1;
+			float Kd = 1;
+			float3 L = normalize(_SunPosition - v.worldVertex.xyz);
+			float LdotN = dot(L, worldNormal.xyz);
+			float3 dif = fAtt * _SunColour.rgb * Kd * v.colour.rgb * saturate(LdotN);
+
+			// Calculate specular reflections
+			float Ks = 1;
+			float specN = 5; // Values>>1 give tighter highlights
+			float3 V = normalize(_WorldSpaceCameraPos - v.worldVertex.xyz);
+			float3 H = (L + V) / length(L + V);
+			float NdotH = dot(worldNormal, H);
+			float3 R = (2 * LdotN * worldNormal) - L;
+			float3 spe = fAtt * _SunColour.rgb * Ks * pow(saturate(NdotH), specN);
+
+			// Combine Phong illumination model components
+			v.colour.rgb = amb.rgb + dif.rgb + spe.rgb;
+			v.colour.a = v.colour.a;
+
 			return v.colour;
 		}
 			ENDCG

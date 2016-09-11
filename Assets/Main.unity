@@ -230,7 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3861bb622f5804ca9abd6cfe5084e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 5
+  color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!23 &1603106857
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -608,6 +609,7 @@ MonoBehaviour:
   height: 600
   waterLevel: 0.75
   waterPlane: {fileID: 791389085}
+  sun: {fileID: 1603106856}
 --- !u!23 &1839556409
 MeshRenderer:
   m_ObjectHideFlags: 0

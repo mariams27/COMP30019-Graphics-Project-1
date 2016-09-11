@@ -11,15 +11,14 @@ public class TerrainGenerator : MonoBehaviour {
     public float waterLevel = 0.75f;
     public GameObject waterPlane;
     public DiamondSquareHeightMap dmap;
+    public SunOrbit sun;
 
     Terrain terrain;
 
+
     void Start() {
         terrain = GetComponent<Terrain>();
-
         transform.position = new Vector3(-width / 2, 0, -length / 2);
-
-        
 
         Generate();
         
@@ -32,11 +31,13 @@ public class TerrainGenerator : MonoBehaviour {
 
         if (dmap!=null)
         {
-            
-            // Pass updated light positions to shader
+           
+            // Pass updated values to shader
             terrain.materialTemplate.SetFloat("_AverageHeight", this.dmap.GetAverageHeight());
             terrain.materialTemplate.SetFloat("_TerrainHeight", this.height);
             terrain.materialTemplate.SetFloat("_WaterLevel", this.waterLevel);
+            terrain.materialTemplate.SetColor("_SunColour", this.sun.color);
+            terrain.materialTemplate.SetVector("_SunPosition", this.sun.GetWorldPosition());
         }
     }
 
