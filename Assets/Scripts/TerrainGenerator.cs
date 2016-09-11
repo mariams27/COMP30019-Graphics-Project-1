@@ -22,6 +22,7 @@ public class TerrainGenerator : MonoBehaviour {
         
 
         Generate();
+        
     }
 
     void Update() {
@@ -29,14 +30,13 @@ public class TerrainGenerator : MonoBehaviour {
             Generate();
         }
 
-        // Get renderer component (in order to pass params to shader)
-        MeshRenderer renderer = this.gameObject.GetComponent<MeshRenderer>();
-
         if (dmap!=null)
         {
+            
             // Pass updated light positions to shader
-            renderer.material.SetFloat("_AverageHeight", this.dmap.GetAverageHeight());
-            renderer.material.SetFloat("_TerrainHeight", this.height);
+            terrain.materialTemplate.SetFloat("_AverageHeight", this.dmap.GetAverageHeight());
+            terrain.materialTemplate.SetFloat("_TerrainHeight", this.height);
+            terrain.materialTemplate.SetFloat("_WaterLevel", this.waterLevel);
         }
     }
 
@@ -55,10 +55,5 @@ public class TerrainGenerator : MonoBehaviour {
             );
         }
 	}
-
-    public float getMapHeight()
-    {
-        return dmap.GetAverageHeight();
-    }
-
+    
 }
