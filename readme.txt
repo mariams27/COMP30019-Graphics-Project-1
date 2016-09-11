@@ -24,3 +24,5 @@ A simple sphere is used to represent the sun and it is set to slowly orbit aroun
 A fragment shader is then responsible for lighting up the terrain using the Phong's illumination model.
 
 A water plane is added, its y value set based on the height of the terrain and a coefficient.
+
+The project also uses an fps display script from http://wiki.unity3d.com/index.php?title=FramesPerSecond
