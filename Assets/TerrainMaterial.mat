@@ -18,20 +18,24 @@ Material:
     m_Floats:
       data:
         first:
-          name: _AverageHeight
-        second: 565.82886
-      data:
-        first:
           name: _WaterLevel
-        second: 0.75
+        second: 0.25
       data:
         first:
           name: _GrassLevel
-        second: 1.05
+        second: 0.35
       data:
         first:
           name: _SnowLevel
-        second: 1.75
+        second: 0.75
+      data:
+        first:
+          name: _MaxHeight
+        second: 573.6499
+      data:
+        first:
+          name: _MinHeight
+        second: -41.008522
     m_Colors:
       data:
         first:
@@ -40,4 +44,4 @@ Material:
       data:
         first:
           name: _SunPosition
-        second: {r: 0, g: 1966.4806, b: 364.6249, a: 0}
+        second: {r: 0, g: -641.98615, b: 1894.1592, a: 0}

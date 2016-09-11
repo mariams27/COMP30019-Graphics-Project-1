@@ -9,14 +9,18 @@ public class TerrainGenerator : MonoBehaviour {
     public float length = 1000;
     public float height = 600;
 
-    public float waterLevel = 0.75f;
+    public float waterLevel = 0.25f;
+    public float grassLevel = 0.35f;
+    public float snowLevel = 0.75f;
 
     public GameObject waterPlane;
     public SunOrbit sun;
 
     DiamondSquareHeightMap dmap;
     Terrain terrain;
-    float averageHeight;
+
+    float maxHeight;
+    float minHeight;
 
     void Start() {
         terrain = GetComponent<Terrain>();
@@ -32,8 +36,13 @@ public class TerrainGenerator : MonoBehaviour {
 
         if (dmap!=null) {
             // Pass updated values to shader
-            terrain.materialTemplate.SetFloat("_AverageHeight", averageHeight);
+            terrain.materialTemplate.SetFloat("_MaxHeight", maxHeight);
+            terrain.materialTemplate.SetFloat("_MinHeight", minHeight);
+
             terrain.materialTemplate.SetFloat("_WaterLevel", waterLevel);
+            terrain.materialTemplate.SetFloat("_GrassLevel", grassLevel);
+            terrain.materialTemplate.SetFloat("_SnowLevel", snowLevel);
+
             terrain.materialTemplate.SetColor("_SunColour", sun.color);
             terrain.materialTemplate.SetVector("_SunPosition", sun.GetWorldPosition());
         }
@@ -41,7 +50,8 @@ public class TerrainGenerator : MonoBehaviour {
 
     void Generate() {
         dmap = new DiamondSquareHeightMap(diamondSquareRecursions);
-        averageHeight = dmap.GetAverageHeight() * height;
+        maxHeight = dmap.GetMaxHeight() * height;
+        minHeight = dmap.GetMinHeight() * height;
 
         terrain.terrainData.heightmapResolution = dmap.GetSize();
         terrain.terrainData.SetHeights(0, 0, dmap.GetData());
@@ -50,7 +60,7 @@ public class TerrainGenerator : MonoBehaviour {
         waterPlane.transform.localScale = new Vector3(width / 10, 1, length / 10);
 
         if (waterPlane) {
-            float newWaterPlaneY = averageHeight * waterLevel;
+            float newWaterPlaneY = minHeight + (maxHeight - minHeight) * waterLevel;
             waterPlane.transform.position = new Vector3(
                 waterPlane.transform.position.x,
                 newWaterPlaneY,

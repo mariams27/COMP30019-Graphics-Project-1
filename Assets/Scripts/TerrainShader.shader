@@ -1,10 +1,11 @@
 Shader "Unlit/TerrainShader" {
-	Properties {
-		_AverageHeight("Average Height", Float) = 0.0
+	Properties{
+		_MaxHeight("Max Height", Float) = 0
+		_MinHeight("Min Height", Float) = 0
 
-		_WaterLevel("Water Level", Float) = 0.0
-		_GrassLevel("Grass Level", Float) = 1.05
-		_SnowLevel("Snow Level", Float) = 1.75
+		_WaterLevel("Water Level", Float) = 0
+		_GrassLevel("Grass Level", Float) = 0
+		_SnowLevel("Snow Level", Float) = 0
 
 		_SunColor("Sun Colour", Color) = (0,0,0)
 		_SunPosition("Sun Pos", Vector) = (0.0, 0.0, 0.0)
@@ -19,7 +20,8 @@ Shader "Unlit/TerrainShader" {
 
 			#include "UnityCG.cginc"
 
-			float _AverageHeight;
+			float _MaxHeight;
+			float _MinHeight;
 			float _WaterLevel;
 			float _GrassLevel;
 			float _SnowLevel;
@@ -46,13 +48,13 @@ Shader "Unlit/TerrainShader" {
 
 				// Colour vertices based on height
 				float h = v.vertex.y;
-				if (h > _AverageHeight * _SnowLevel) {
+				if (h > _MaxHeight - (_MaxHeight - _MinHeight) * (1 - _SnowLevel)) {
 					o.colour = float4(1.0f, 1.0f, 1.0f, 1.0f);  // white
 					o.spec = 0.4;
-				} else if (h < _AverageHeight * _WaterLevel) {
+				} else if (h < _MinHeight + (_MaxHeight - _MinHeight) * _WaterLevel) {
 					o.colour = float4(0.0f, 0.5f, 1.0f, 1.0f);  // blue
 					o.spec = 1;
-				} else if (h < _AverageHeight * _GrassLevel) {
+				} else if (h < _MinHeight + (_MaxHeight - _MinHeight) * _GrassLevel) {
 					o.colour = float4(0.0f, 0.51f, 0.0f, 1.0f); // green
 					o.spec = 0;
 				} else {

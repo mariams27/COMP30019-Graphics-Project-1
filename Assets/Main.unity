@@ -608,7 +608,9 @@ MonoBehaviour:
   width: 2000
   length: 2000
   height: 800
-  waterLevel: 0.75
+  waterLevel: 0.25
+  grassLevel: 0.35
+  snowLevel: 0.75
   waterPlane: {fileID: 791389085}
   sun: {fileID: 1603106856}
 --- !u!23 &1839556409
