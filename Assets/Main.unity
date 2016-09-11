@@ -111,7 +111,7 @@ MeshRenderer:
   m_GameObject: {fileID: 791389085}
   m_Enabled: 1
   m_CastShadows: 0
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 2100000, guid: 00a29817c5532a0459738f3ed62d9a37, type: 2}
   m_SubsetIndices: 
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b3861bb622f5804ca9abd6cfe5084e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 1
   color: {r: 1, g: 1, b: 1, a: 0}
 --- !u!23 &1603106857
 MeshRenderer:
@@ -341,7 +341,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 2000
+  far clip plane: 1800
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -450,14 +450,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boundX: 1
-  minX: -480
-  maxX: 480
+  minX: -1000
+  maxX: 1000
   boundY: 0
-  minY: -500
-  maxY: 500
+  minY: 0
+  maxY: 0
   boundZ: 1
-  minZ: -480
-  maxZ: 480
+  minZ: -1000
+  maxZ: 1000
 --- !u!1 &1820106004
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_Strength: 1
     m_Bias: 0.05
@@ -502,7 +502,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -567,7 +567,7 @@ Terrain:
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 2000
   m_HeightmapMaximumLOD: 0
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_DrawHeightmap: 1
   m_DrawTreesAndFoliage: 0
   m_ReflectionProbeUsage: 1
@@ -604,9 +604,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 071bc5e3e8ed0184780ef56bd940470b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 1000
-  length: 1000
-  height: 600
+  diamondSquareRecursions: 8
+  width: 2000
+  length: 2000
+  height: 800
   waterLevel: 0.75
   waterPlane: {fileID: 791389085}
   sun: {fileID: 1603106856}
